@@ -59,7 +59,7 @@ pipeline {
                         xvfb-run --auto-servernum -- npx cypress run \
                             --browser ${params.BROWSER} \
                             --spec "cypress/e2e/${params.SPEC_FILE}" \
-                            --config viewportWidth=${viewportWidth},viewportHeight=${viewportHeight}
+                            --config viewportWidth=${viewportWidth},viewportHeight=${viewportHeight} \
                             --config-file ${params.CONFIG_FILE}
                     """
                 }
