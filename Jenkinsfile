@@ -7,6 +7,10 @@ pipeline {
         choice(name: 'DEVICE', choices:['Desktop', 'Mobile'], description: "Choose the device to execute the test on")
         choice(name: 'BROWSER', choices: ['chrome', 'firefox'], description: "Choose the browser for execute the tests")
     }
+    
+    options {
+        ansiColor('xterm')
+    }
 
     environment {
         CYPRESS_CACHE_FOLDER = '/var/lib/jenkins/.cache/Cypress'
