@@ -7,7 +7,7 @@ pipeline {
         choice(name: 'DEVICE', choices:['Desktop', 'Mobile'], description: "Choose the device to execute the test on")
         choice(name: 'BROWSER', choices: ['chrome', 'firefox'], description: "Choose the browser for execute the tests")
     }
-    
+
     options {
         ansiColor('xterm')
     }
@@ -68,6 +68,12 @@ pipeline {
                     """
                 }
             }
+        }
+    }
+
+    post{
+        always{
+            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'cypress/report', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
         }
     }
 }
