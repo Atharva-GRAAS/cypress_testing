@@ -14,7 +14,7 @@ pipeline {
 
     environment {
         CYPRESS_CACHE_FOLDER = '/var/lib/jenkins/.cache/Cypress'
-        CYPRESS_REPORT_FOLDER = '/var/lib/jenkins/.cache/Cypress/report'
+        CYPRESS_REPORT_FOLDER = '/var/lib/jenkins/workspace/cypress_pipeline/Cypress/report'
     }
 
     stages {
