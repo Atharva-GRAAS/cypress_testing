@@ -24,7 +24,11 @@ pipeline{
                 // Install Node.js dependencies
                 sh '''
                 npm install 
-                npx cypress install --cache-folder=${CYPRESS_CACHE_FOLDER} 
+                # Set environment variable for Cypress cache
+                export CYPRESS_CACHE_FOLDER=${CYPRESS_CACHE_FOLDER}
+                        
+                # Install Cypress
+                npx cypress install 
                 '''
             }
         }
