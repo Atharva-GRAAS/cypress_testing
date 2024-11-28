@@ -17,6 +17,7 @@ module.exports = defineConfig({
     adminurl: 'https://sehkm24uat.stores2.shoptimize.in/sehkm24admin', 
     experimentalStudio: true,
     video: true,
+    trashAssetsBeforeRuns: false,
     setupNodeEvents(on, config) {
       // implement node event listeners here
       on('after:spec', (spec, results) => {

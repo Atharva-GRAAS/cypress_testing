@@ -20,6 +20,7 @@ module.exports = defineConfig({
     experimentalStudio: true,
     'defaultCommandTimeout': 10000,
     video: true,
+    trashAssetsBeforeRuns: false,
     setupNodeEvents(on, config) {
       // implement node event listeners here
       on('after:spec', (spec, results) => {
