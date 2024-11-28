@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     parameters{
-        string(name: 'SPEC_FILE', defaultValue: "cypress/e2e/**/**", description: "Enter the path of the spec to execute")
+        string(name: 'SPEC_FILE', defaultValue: "/**/**", description: "Enter the path of the spec to execute")
         choice(name: 'CONFIG_FILE', choices:['cypress.config.segulfm24.js', 'cypress.config.sehkm24.js'], description: "Choose the config file for the test to execute")
         choice(name: 'DEVICE', choices:['Desktop', 'Mobile'], description: "Choose the device to execute the test on")
         choice(name: 'BROWSER', choices: ['chrome', 'firefox'], description: "Choose the browser for execute the tests")
