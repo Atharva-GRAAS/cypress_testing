@@ -3,6 +3,7 @@ pipeline {
 
     parameters{
         string(name: 'SPEC_FILE', defaultValue: "cypress/e2e/**/**", description: "Enter the path of the spec to execute")
+        choice(name: 'CONFIG_FILE', choices:['cypress.config.segulfm24.js', 'cypress.config.sehkm24.js'], description: "Choose the config file for the test to execute")
         choice(name: 'DEVICE', choices:['Desktop', 'Mobile'], description: "Choose the device to execute the test on")
         choice(name: 'BROWSER', choices: ['Chrome', 'Firefox'], description: "Choose the browser for execute the tests")
     }
@@ -44,10 +45,10 @@ pipeline {
                     def viewportWidth = 1280
                     def viewportHeight = 720
 
-                    if (params.DEVICE == 'desktop') {
+                    if (params.DEVICE == 'Desktop') {
                         viewportWidth = 1920
                         viewportHeight = 1080
-                    } else if (params.DEVICE == 'mobile') {
+                    } else if (params.DEVICE == 'Mobile') {
                         viewportWidth = 375
                         viewportHeight = 667
                     }
@@ -59,6 +60,7 @@ pipeline {
                             --browser ${params.BROWSER} \
                             --spec "cypress/e2e/${params.SPEC_FILE}" \
                             --config viewportWidth=${viewportWidth},viewportHeight=${viewportHeight}
+                            --config-file ${param.CONFIG_FILE}
                     """
                 }
             }
