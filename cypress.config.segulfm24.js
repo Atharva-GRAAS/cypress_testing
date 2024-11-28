@@ -1,4 +1,5 @@
 const { defineConfig } = require("cypress");
+const path = require('path');
 
 module.exports = defineConfig({
   viewportWidth: 1000,
