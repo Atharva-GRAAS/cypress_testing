@@ -19,6 +19,7 @@ pipeline{
             steps {
                 // Install Node.js dependencies
                 sh "npm install"
+                sh "cypress install"
             }
         }
         stage('Testing'){
