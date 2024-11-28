@@ -35,6 +35,9 @@ pipeline{
         stage('Testing'){
             steps{
                 script {
+                    // Define default viewport sizes
+                    def viewportWidth = 1280
+                    def viewportHeight = 720
                     // Conditional logic for viewport based on device selection
                     if (params.DEVICE == 'Desktop') {
                         viewportWidth = 1920
