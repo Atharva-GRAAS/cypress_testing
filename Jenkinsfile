@@ -1,5 +1,4 @@
-pipeline{
-
+pipeline {
     agent any
 
     parameters{
@@ -9,53 +8,60 @@ pipeline{
     }
 
     environment {
-        CYPRESS_CACHE_FOLDER = '/var/lib/jenkins/.cache/Cypress' // Specify the Cypress cache path
+        CYPRESS_CACHE_FOLDER = '/var/lib/jenkins/.cache/Cypress'
     }
 
-    stages{
-        stage('Building'){
-            steps{
-                echo "Building the application"
+    stages {
+        stage('Setup Environment') {
+            steps {
+                script {
+                    // Install required dependencies including Xvfb
+                    sh '''
+                        # Ensure Cypress cache directory exists
+                        mkdir -p ${CYPRESS_CACHE_FOLDER}
+                    '''
+                }
             }
         }
 
-        stage('Setup Dependencies') {
+        stage('Install Dependencies') {
             steps {
-                // Install Node.js dependencies
-                sh '''
-                npm install 
-                # Set environment variable for Cypress cache
-                export CYPRESS_CACHE_FOLDER=${CYPRESS_CACHE_FOLDER}
-                        
-                # Install Cypress
-                npx cypress install 
-                '''
+                script {
+                    // Install Node.js dependencies and Cypress
+                    sh '''
+                        npm install
+                        export CYPRESS_CACHE_FOLDER=${CYPRESS_CACHE_FOLDER}
+                        npx cypress install
+                    '''
+                }
             }
         }
-        stage('Testing'){
-            steps{
+
+        stage('Run Tests') {
+            steps {
                 script {
-                    // Define default viewport sizes
+                    // Define viewport dimensions based on the device parameter
                     def viewportWidth = 1280
                     def viewportHeight = 720
-                    // Conditional logic for viewport based on device selection
-                    if (params.DEVICE == 'Desktop') {
+
+                    if (params.DEVICE == 'desktop') {
                         viewportWidth = 1920
                         viewportHeight = 1080
-                    } else if (params.DEVICE == 'Mobile') {
-                        viewportWidth = 900
-                        viewportHeight = 500
+                    } else if (params.DEVICE == 'mobile') {
+                        viewportWidth = 375
+                        viewportHeight = 667
                     }
+
+                    // Run tests with Xvfb for headless display
+                    sh """
+                        export CYPRESS_CACHE_FOLDER=${CYPRESS_CACHE_FOLDER}
+                        xvfb-run --auto-servernum -- npx cypress run \
+                            --browser ${params.BROWSER} \
+                            --spec "cypress/e2e/${params.SPEC_FILE}" \
+                            --config viewportWidth=${viewportWidth},viewportHeight=${viewportHeight}
+                    """
                 }
-
-                sh 'npx cypress run --browser ${BROWSER} --spec ${SPEC_FILE} --config viewportWidth=${viewportWidth},viewportHeight=${viewportHeight}'
             }
         }
-        stage('Deploying'){
-            steps{
-                echo "Run deployed"
-            }
-        }
-
     }
 }
