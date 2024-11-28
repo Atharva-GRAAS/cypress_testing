@@ -8,6 +8,10 @@ pipeline{
         choice(name: 'BROWSER', choices: ['Chrome', 'Firefox'], description: "Choose the browser for execute the tests")
     }
 
+    environment {
+        CYPRESS_CACHE_FOLDER = '/var/lib/jenkins/.cache/Cypress' // Specify the Cypress cache path
+    }
+
     stages{
         stage('Building'){
             steps{
@@ -18,8 +22,10 @@ pipeline{
         stage('Setup Dependencies') {
             steps {
                 // Install Node.js dependencies
-                sh "npm install"
-                sh "cypress install"
+                sh '''
+                npm install 
+                npx cypress install --cache-folder=${CYPRESS_CACHE_FOLDER} 
+                '''
             }
         }
         stage('Testing'){
