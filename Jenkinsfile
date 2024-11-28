@@ -14,6 +14,7 @@ pipeline {
 
     environment {
         CYPRESS_CACHE_FOLDER = '/var/lib/jenkins/.cache/Cypress'
+        CYPRESS_REPORT_FOLDER = '/var/lib/jenkins/.cache/Cypress/report'
     }
 
     stages {
@@ -24,6 +25,7 @@ pipeline {
                     sh '''
                         # Ensure Cypress cache directory exists
                         mkdir -p ${CYPRESS_CACHE_FOLDER}
+                        mkdir -p ${CYPRESS_REPORT_FOLDER}
                     '''
                 }
             }
@@ -73,7 +75,7 @@ pipeline {
 
     post{
         always{
-            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'report', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Cypress/report', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
         }
     }
 }
